@@ -13,8 +13,13 @@
         android:theme="@style/Theme.Calculator"
         tools:targetApi="31">
         <activity
-            android:name=".Calculator"
+            android:name=".history.HistoryActivity"
+            android:parentActivityName=".Calculator"
+            android:theme="@style/Theme.ActionBar"
             android:exported="false" />
+        <activity
+            android:name=".Calculator"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

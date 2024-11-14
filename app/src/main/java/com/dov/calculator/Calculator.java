@@ -1,15 +1,14 @@
 package com.dov.calculator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.dov.calculator.history.HistoryActivity;
 
 public class Calculator extends AppCompatActivity {
     EditText firstNumberEditText;
@@ -18,7 +17,7 @@ public class Calculator extends AppCompatActivity {
     Button plusButton;
     Button moinsButton;
     TextView titleTextView;
-    Button closeButton;
+    Button historyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class Calculator extends AppCompatActivity {
         plusButton = findViewById(R.id.operator_plus);
         moinsButton = findViewById(R.id.operator_moins);
         titleTextView = findViewById(R.id.title);
-        closeButton = findViewById(R.id.close_bt);
+        historyButton = findViewById(R.id.history_bt);
 
         plusButton.setOnClickListener(v -> {
             calculate('+');
@@ -42,8 +41,8 @@ public class Calculator extends AppCompatActivity {
         moinsButton.setOnClickListener(v -> {
             calculate('-');
         });
-        closeButton.setOnClickListener(v -> {
-            finish();
+        historyButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, HistoryActivity.class));
         });
 
         String name = getIntent().getStringExtra("name");
@@ -63,7 +62,9 @@ public class Calculator extends AppCompatActivity {
         } else if (c == '-') {
             result = firstNumber - secondNumber;
         }
-        resultTextView.setText(firstNumberEditText.getText().toString() + " " + c + " " + secondNumberEditText.getText().toString() + " = " + result);
+        String resultString = firstNumberEditText.getText().toString() + " " + c + " " + secondNumberEditText.getText().toString() + " = " + result;
+        resultTextView.setText(resultString);
+        ApplicationData.getInstance().getOperationsHistory().add(resultString);
     }
 
 
